@@ -1,0 +1,46 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite database file
+*.sqlite3
+*.db
+
+# Environment files
+.env
+.env.*
+
+# VSCode & IDE settings
+.vscode/
+.idea/
+
+# Virtual environments
+venv/
+.venv/
+
+# PyInstaller
+*.spec
+
+# Mac OS & Linux system files
+.DS_Store
+*.swp
+*.swo
+
+# Python egg info
+*.egg-info/
+dist/
+build/
+
+# Logs
+*.log
+
+# Static or generated files (optional)
+newsletters/*.html
+newsletters/*.md
+
+# __pycache__ inside subfolders
+**/__pycache__/
+
+# Optional: Pip/uv build cache
+.uv/
