@@ -44,3 +44,6 @@ newsletters/*.md
 
 # Optional: Pip/uv build cache
 .uv/
+
+# CrewAI memory storage
+memory/

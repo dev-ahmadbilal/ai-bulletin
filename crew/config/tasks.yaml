@@ -1,0 +1,32 @@
+plan_newsletter:
+  description: >
+    Curate a structured and diverse weekly AI-focused newsletter. Use the Serper tool to find 
+    trending AI news, tools, quotes, and real-world applications. 
+    Load the last two weeks' newsletter topics from memory to avoid repetition. 
+    Highlight meaningful developments across domains like product launches, research breakthroughs, 
+    policy updates, and practical AI use cases. 
+
+    Structure your output as follows:
+    - top_stories: A list of 2-3 concise but detailed news stories about major developments in AI.
+    - deep_dive: One long-form analytical or high-impact story that deserves deeper attention.
+    - tool_of_the_week: One standout AI tool or library that is new, trending, or extremely useful.
+    - quote_or_tweet: A relevant quote or tweet from an expert, company, or publication.
+    - ai_in_the_wild: One example of how AI is being applied in the real world.
+    - hot_takes: One bold, controversial, or critical opinion/perspective in the AI space.
+    - editors_note: A personal editorial-style reflection tying the week's themes together.
+
+    Avoid repeating any topics discussed in the last two newsletters.
+  
+  expected_output: >
+    A JSON object with the following structure:
+    {
+      "top_stories": List[Story],
+      "deep_dive": Story,
+      "tool_of_the_week": Tool,
+      "quote_or_tweet": QuoteOrTweet,
+      "ai_in_the_wild": Story,
+      "hot_takes": Story,
+      "editors_note": str
+    }
+    Each object must match the corresponding Pydantic schema field as defined in `NewsletterTopics`.
+  agent: topic_planner

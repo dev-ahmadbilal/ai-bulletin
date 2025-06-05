@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ai-bulletin"
+version = "0.1.0"
+description = "AI-powered weekly tech newsletter backend and crew."
+authors = ["Your Name <your@email.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+fastapi = "*"
+uvicorn = "*"
+sqlalchemy = "*"
+pydantic = {extras = ["email"], version = "*"}
+crewai = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api" 
