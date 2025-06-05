@@ -113,7 +113,7 @@ curl -X POST http://localhost:8000/subscribe \
 
 ## 📄 License
 
-MIT — Free to use and build upon.
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
