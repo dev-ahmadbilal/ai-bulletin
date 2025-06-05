@@ -1,22 +1,29 @@
 plan_newsletter:
   description: >
-    Curate a structured and diverse weekly AI-focused newsletter. Use the Serper tool to find 
-    trending AI news, tools, quotes, and real-world applications. 
-    Load the last two weeks' newsletter topics from memory to avoid repetition. 
-    Highlight meaningful developments across domains like product launches, research breakthroughs, 
-    policy updates, and practical AI use cases. 
+    Curate a comprehensive, structured, and diverse weekly AI-focused newsletter that captures 
+    the most significant developments across the artificial intelligence ecosystem. Use the Serper 
+    tool to find trending AI news, breakthrough research, emerging tools, thought-provoking quotes, 
+    and compelling real-world applications. Load and analyze the last two weeks' newsletter topics 
+    from memory to ensure zero content repetition and maintain editorial freshness. 
+    
+    Focus on meaningful developments across multiple domains including but not limited to: 
+    major product launches, groundbreaking research publications, policy and regulatory updates, 
+    funding announcements, partnership deals, practical AI implementations, industry analysis, 
+    and emerging trends. Prioritize content that offers both immediate relevance and longer-term 
+    strategic value to AI professionals, business leaders, and technology enthusiasts.
+    
+    Ensure topic diversity across different AI sectors (NLP, computer vision, robotics, ML ops, 
+    AI safety, etc.) and stakeholder perspectives (researchers, practitioners, policymakers, end users).
 
     Structure your output as follows:
-    - top_stories: A list of 2-3 concise but detailed news stories about major developments in AI.
-    - deep_dive: One long-form analytical or high-impact story that deserves deeper attention.
-    - tool_of_the_week: One standout AI tool or library that is new, trending, or extremely useful.
-    - quote_or_tweet: A relevant quote or tweet from an expert, company, or publication.
-    - ai_in_the_wild: One example of how AI is being applied in the real world.
-    - hot_takes: One bold, controversial, or critical opinion/perspective in the AI space.
-    - editors_note: A personal editorial-style reflection tying the week's themes together.
+    - top_stories: A curated list of 2-3 concise but detailed news stories covering the most significant AI developments of the week
+    - deep_dive: One substantial, analytical story that deserves comprehensive exploration and provides strategic context
+    - tool_of_the_week: One standout AI tool, platform, or library that is newly launched, trending, or exceptionally useful
+    - quote_or_tweet: A relevant, thought-provoking quote or tweet from an expert, company leader, or respected publication
+    - ai_in_the_wild: One compelling example of AI being applied in the real world with measurable impact
+    - hot_takes: One bold, controversial, or critical opinion/perspective that challenges conventional thinking in the AI space
+    - editors_note: A personal editorial-style reflection that ties the week's themes together and engages the community
 
-    Avoid repeating any topics discussed in the last two newsletters.
-  
   expected_output: >
     A JSON object with the following structure:
     {
@@ -30,3 +37,400 @@ plan_newsletter:
     }
     Each object must match the corresponding Pydantic schema field as defined in `NewsletterTopics`.
   agent: topic_planner
+
+TopStoriesTask:
+  description: >
+    Transform the curated top AI/tech news stories from the topic planner into engaging, 
+    comprehensive, and accessible content that captures both the immediate significance 
+    and broader implications of each development. Focus on creating content that serves 
+    busy professionals who need to stay current with AI developments but may not have 
+    time to read full articles. Each story should provide complete context while 
+    maintaining reader engagement through clear, compelling writing.
+    
+    Ensure each story covers different aspects of the AI landscape (e.g., one on enterprise 
+    adoption, one on research breakthrough, one on policy/regulation) to provide diverse 
+    coverage. Include relevant context about companies, technologies, or trends mentioned 
+    to help readers understand significance even if they're not deeply familiar with the topic.
+
+  expected_output: |
+    A complete "Top Stories" section containing exactly three distinct bullet points, formatted as:
+    
+    ## 🔥 Top Stories
+    
+    • **[Use exact title from story object]**
+      [Use the provided summary, enhanced with additional context and clarity as needed]
+      
+      *Why it matters:* [1-2 sentence insight explaining broader significance, industry impact, or implications for AI development]
+      
+      *Source:* [Use the source URL provided in the story object]
+    
+    • **[Second Story Title from array]**
+      [Enhanced summary from second story object]
+      
+      *Why it matters:* [Significance insight for second story]
+      
+      *Source:* [Second story's source URL]
+    
+    • **[Third Story Title from array]** 
+      [Enhanced summary from third story object]
+      
+      *Why it matters:* [Significance insight for third story]
+      
+      *Source:* [Third story's source URL]
+    
+    Each bullet point should be substantive (75-100 words total) and provide complete value 
+    to readers. Use the exact titles and sources provided by the topic planner, while enhancing 
+    the summaries with additional context and your expert "Why it matters" analysis.
+  agent: TopStoriesAgent
+  input_variables:
+    - top_stories
+  context: >
+    Use only the stories provided by the topic planner. Do not deviate from assigned topics 
+    or introduce new stories. Focus on transforming the provided information into the most 
+    engaging and informative presentation possible.
+
+DeepDiveTask:
+  description: >
+    Create a comprehensive, analytical deep-dive article that thoroughly explores the week's 
+    most significant AI development, trend, or breakthrough. This should go far beyond surface-level 
+    reporting to provide strategic context, expert analysis, and forward-looking insights that 
+    help readers understand not just what happened, but why it matters and what comes next.
+    
+    The article should serve as a definitive resource on the topic, combining factual reporting 
+    with thoughtful analysis that positions the development within the broader AI landscape. 
+    Include relevant background information, explain technical concepts in accessible terms, 
+    and address implications for different stakeholders (businesses, researchers, consumers, policymakers).
+
+  expected_output: |
+    A comprehensive article formatted as:
+    
+    ## 🔍 Deep Dive: [Clear, Compelling Title That Captures the Essence]
+    
+    [Opening paragraph that hooks readers and clearly establishes the topic's significance]
+    
+    [Background paragraph providing necessary context and explaining why this topic matters now]
+    
+    [2-3 body paragraphs covering recent developments, key details, and analysis of implications]
+    
+    [Concluding paragraph that synthesizes insights and provides forward-looking perspective]
+    
+    [Source citations and links where relevant]
+    
+    Total length: 400-600 words. Use clear subheadings if needed to improve readability. 
+    Balance technical accuracy with accessibility for a general professional audience.
+  agent: DeepDiveAgent
+  input_variables:
+    - deep_dive
+  context: >
+    Base your analysis strictly on the assigned deep dive topic from the planner. 
+    Do not introduce new topics or significantly deviate from the provided focus area. 
+    Your role is to provide the deepest, most insightful analysis possible of the assigned topic.
+
+ToolTask:
+  description: >
+    Create a comprehensive introduction and review of the assigned AI tool that helps readers 
+    understand its purpose, capabilities, practical applications, and significance within the 
+    current AI tooling landscape. Go beyond basic feature listings to provide strategic context 
+    about why this tool matters, who should care about it, and how it fits into broader AI 
+    development workflows or business applications.
+    
+    Include practical information that helps readers evaluate whether this tool is relevant 
+    to their needs, along with context about its competitive positioning and potential impact 
+    on AI development or deployment processes.
+
+  expected_output: |
+    A complete tool review formatted as:
+    
+    ## 🛠️ Tool of the Week: [Tool Name]
+    
+    **What it is:** [1-2 sentence clear description of the tool's core purpose and functionality]
+    
+    **Why it matters:** [2-3 sentences explaining the tool's significance, what problem it solves, or what opportunity it creates]
+    
+    **Key features:**
+    - [Bullet point highlighting most important capability]
+    - [Second key feature or benefit]  
+    - [Third feature if relevant]
+    
+    **Who should care:** [Description of target audience, use cases, and ideal applications]
+    
+    **Getting started:** [Brief information about availability, pricing model, or how to access]
+    
+    [Link to tool website or primary resource]
+    
+    Total length: 200-300 words providing actionable information for readers.
+
+  agent: ToolOfTheWeekAgent
+  input_variables:
+    - tool_of_the_week
+  context: >
+    Focus exclusively on the tool assigned by the topic planner. Provide comprehensive 
+    coverage of this specific tool without introducing alternatives or deviating to other tools.
+
+QuoteTask:
+  description: >
+    Format and present the quote or tweet provided by the topic planner with proper 
+    attribution, compelling visual presentation, and insightful contextual commentary 
+    that explains its relevance to this week's AI developments and newsletter themes. 
+    Focus on enhancing the quote's impact through thoughtful presentation and connecting 
+    it meaningfully to the broader content without over-explaining or changing its core message.
+
+  expected_output: |
+    A formatted quote section:
+    
+    ## 💭 Quote of the Week
+    
+    > "[Quote text exactly as provided by topic planner, maintaining original formatting and tone]"
+    
+    **— [Author Name, Title/Affiliation as provided]**  
+    *[Source: Platform/Publication, Date if available]*
+    
+    [1-2 sentence contextual note explaining why this quote is relevant to this week's newsletter 
+    themes, what insight or perspective it provides, and how it connects to the covered topics]
+
+  agent: QuoteAgent
+  input_variables:
+    - quote_or_tweet
+  context: >
+    Format and present only the specific quote/tweet provided by the topic planner. 
+    Your role is presentation and contextualization, not selection. Focus on maximizing 
+    the impact and relevance of the assigned quote through thoughtful formatting and commentary.
+
+AIWildTask:
+  description: >
+    Document and present a compelling real-world AI application or implementation that 
+    demonstrates practical impact, innovative use cases, or meaningful outcomes. Focus on 
+    storytelling that highlights human benefits, business results, or societal impact rather 
+    than just technical capabilities. Include specific details about implementation challenges, 
+    results achieved, and lessons learned that provide value to readers considering similar applications.
+
+  expected_output: |
+    A narrative-style case study formatted as:
+    
+    ## 🌍 AI in the Wild: [Descriptive Title of the Application/Use Case]
+    
+    [Opening paragraph that sets the scene and introduces the application/organization/context]
+    
+    [Body paragraph explaining the AI implementation, including technical approach and key details]
+    
+    [Results paragraph highlighting specific outcomes, benefits achieved, and measurable impact]
+    
+    [Concluding paragraph with insights, lessons learned, or broader implications for similar applications]
+    
+    [Source attribution and links where available]
+    
+    Total length: 250-350 words focusing on practical value and compelling narrative.
+
+  agent: AIInTheWildAgent
+  input_variables:
+    - ai_in_the_wild
+  context: >
+    Stay strictly within the assigned case or topic provided by the planner. Focus on 
+    creating the most compelling and informative presentation of this specific real-world application.
+
+HotTakesTask:
+  description: >
+    Develop and present a sharp, well-reasoned opinion piece that challenges conventional 
+    thinking about a current AI topic, highlights overlooked aspects of recent developments, 
+    or provides a contrarian but valuable perspective on industry trends. The piece should 
+    be provocative enough to generate thought and discussion while remaining professional, 
+    constructive, and well-supported by evidence or logical reasoning.
+
+  expected_output: |
+    An opinion piece formatted as:
+    
+    ## 🔥 Hot Take: [Bold, Clear Statement of Your Position/Thesis]
+    
+    [Opening paragraph that clearly states your contrarian position or perspective]
+    
+    [Supporting paragraph providing evidence, reasoning, or examples that back up your argument]
+    
+    [Additional paragraph addressing potential counterarguments or expanding on implications]
+    
+    [Concluding paragraph that reinforces your main point and suggests what readers should consider or do differently]
+    
+    Total length: 300-400 words with confident, clear voice that adds genuine value to industry discourse.
+
+  agent: HotTakesAgent
+  input_variables:
+    - hot_takes
+  context: >
+    Focus exclusively on the assigned hot take topic from the planner. Develop the strongest, 
+    most thoughtful contrarian perspective possible on this specific topic without introducing new subjects.
+
+EditorsNoteTask:
+  description: >
+    Craft a warm, insightful editorial note that serves as both introduction and synthesis 
+    for the week's newsletter content. Connect the various topics into a coherent narrative 
+    or theme, provide personal perspective on the week's developments, and create a sense 
+    of community engagement with readers. The note should feel like a thoughtful conversation 
+    with the audience about what's happening in AI and why it matters.
+
+  expected_output: |
+    A personal editorial note formatted as:
+    
+    ## ✍️ Editor's Note
+    
+    [3-5 sentences that synthesize the week's themes, provide editorial perspective on the 
+    significance of covered topics, and create connection with readers through authentic, 
+    conversational tone. Include subtle engagement elements like reflection questions or 
+    calls to action that encourage reader interaction.]
+    
+    Keep tone approachable and authentic while maintaining professional credibility. 
+    Focus on connecting themes rather than introducing new topics.
+
+  agent: EditorsNoteAgent
+  input_variables:
+    - editors_note
+  context: >
+    Summarize and synthesize the overarching themes from all newsletter sections without 
+    introducing new topics. Create coherent connections between diverse content areas 
+    while maintaining the publication's voice and community engagement goals.
+
+NewsletterEditingTask:
+  description: >
+    Conduct a comprehensive editorial review of all newsletter sections, ensuring 
+    consistent quality, tone, and presentation across the entire publication. 
+    Polish content for maximum readability and engagement while maintaining 
+    professional standards. Add strategic emojis and formatting elements that 
+    enhance the reader experience without compromising credibility.
+    
+    Review each section for editorial consistency, flow, grammar, and overall 
+    impact. Ensure the newsletter reads as a cohesive publication rather than 
+    disconnected sections. Optimize content structure and presentation for 
+    busy professional readers who need quick, valuable insights.
+
+  expected_output: |
+    A complete, polished newsletter with all sections refined and formatted:
+    
+    # AI Bulletin - Week of [Date]
+    
+    [Polished Editor's Note with appropriate emoji]
+    
+    ## 🔥 Top Stories
+    [Refined top stories with enhanced readability and flow]
+    
+    ## 🔍 Deep Dive: [Title]
+    [Polished deep dive content with improved structure]
+    
+    ## 🛠️ Tool of the Week: [Tool Name]
+    [Enhanced tool review with better formatting]
+    
+    ## 💭 Quote of the Week  
+    [Refined quote presentation]
+    
+    ## 🌍 AI in the Wild: [Title]
+    [Polished case study with improved narrative flow]
+    
+    ## 🔥 Hot Take: [Title]
+    [Refined opinion piece with stronger arguments]
+    
+    ---
+    
+    Total length: Maintain content substance while optimizing for readability and engagement.
+    Ensure consistent voice, proper grammar, and professional presentation throughout.
+
+  agent: NewsletterEditorAgent
+  input_variables:
+    - editors_note_content
+    - top_stories_content  
+    - deep_dive_content
+    - tool_content
+    - quote_content
+    - ai_wild_content
+    - hot_takes_content
+  context: >
+    Take all completed newsletter sections and create a cohesive, polished final publication. 
+    Focus on editorial quality, readability optimization, and consistent brand voice 
+    throughout all sections.
+
+HTMLFormattingTask:
+  description: >
+    Transform the polished newsletter content into professional, responsive HTML 
+    optimized for email delivery across all major email clients and devices. 
+    Use a consistent template structure that maintains brand identity while 
+    ensuring excellent readability and engagement. Include all necessary 
+    email elements for professional newsletter distribution.
+
+  expected_output: |
+    A complete HTML email template containing:
+    
+    ```html
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+          <title>AI Bulletin - Week of [Date]</title>
+        </head>
+
+        <body>
+          <!-- Header -->
+          <div>
+            <h1>📰 AI Bulletin</h1>
+            <p><em>Let the AI read the news — You read the bulletin.</em></p>
+          </div>
+
+          <!-- Sections -->
+          <div id="top-stories">
+            <h2>📌 Top Stories</h2>
+            <!-- Injected content -->
+          </div>
+
+          <div id="deep-dive">
+            <h2>🔬 Deep Dive</h2>
+            <!-- Injected content -->
+          </div>
+
+          <div id="tool-of-the-week">
+            <h2>🧰 Tool of the Week</h2>
+            <!-- Injected content -->
+          </div>
+
+          <div id="quote">
+            <h2>💬 Quote of the Week</h2>
+            <!-- Injected content -->
+          </div>
+
+          <div id="ai-in-the-wild">
+            <h2>🌍 AI in the Wild</h2>
+            <!-- Injected content -->
+          </div>
+
+          <div id="hot-takes">
+            <h2>🔥 Hot Takes</h2>
+            <!-- Injected content -->
+          </div>
+
+          <div id="editors-note">
+            <h2>✍️ Editor’s Note</h2>
+            <!-- Injected content -->
+          </div>
+
+          <!-- Footer -->
+          <div id="footer">
+            <p>You are receiving this email because you subscribed to <strong>AI Bulletin</strong>.</p>
+            <p><a href="#">Unsubscribe</a> | <a href="#">Follow us on Twitter</a></p>
+          </div>
+
+        </body>
+      </html>
+    ```
+    
+    Requirements:
+    - Mobile-responsive design (works on all screen sizes)
+    - Compatible with major email clients (Gmail, Outlook, Apple Mail, etc.)
+    - Proper typography and spacing for readability
+    - Consistent branding and visual hierarchy
+    - Social sharing buttons and email footer elements
+    - Accessible design with alt text and proper contrast
+    - Fast loading with optimized images and minimal code
+
+  agent: HTMLFormatterAgent
+  input_variables:
+    - newsletter_content
+  context: >
+    Convert the complete polished newsletter into professional HTML email format. 
+    Maintain all content while optimizing for email delivery and cross-platform compatibility. 
+    Use established email HTML best practices and ensure consistent branding.
