@@ -3,21 +3,17 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 import models
-from database import SessionLocal, engine, Base
+from database import SessionLocal, engine, Base, get_db
 from sqlalchemy.exc import IntegrityError
+
+from admin import admin_router
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+app.include_router(admin_router)
 
 # Home page with subscription form
 @app.get("/", response_class=HTMLResponse)
@@ -86,3 +82,28 @@ async def subscribe_from_json(
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+# GET: Show Unsubscribe Form
+@app.get("/unsubscribe", response_class=HTMLResponse)
+async def get_unsubscribe_form(request: Request):
+    return templates.TemplateResponse("unsubscribe.html", {"request": request})
+
+# POST: Process Unsubscribe Request
+@app.post("/unsubscribe", response_class=HTMLResponse)
+async def unsubscribe_email(
+    request: Request,
+    email: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    subscriber = db.query(models.Subscriber).filter(models.Subscriber.email == email).first()
+    if subscriber:
+        db.delete(subscriber)
+        db.commit()
+        message = f"{email} has been unsubscribed successfully."
+    else:
+        message = f"{email} was not found in the subscription list."
+
+    return templates.TemplateResponse("unsubscribe.html", {
+        "request": request,
+        "message": message
+    })

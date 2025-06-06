@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8 text-gray-900">
+  <h1 class="text-3xl font-bold mb-6 text-center">📊 AI Bulletin Admin Dashboard</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Subscribers -->
+    <div class="bg-white rounded-xl shadow p-4">
+      <h2 class="text-xl font-semibold mb-2">Subscribers</h2>
+      <ul class="space-y-2 text-sm">
+        {% for sub in subscribers %}
+          <li class="flex justify-between items-center border-b pb-1">
+            {{ sub.email }} 
+            <form method="post" action="/admin/subscribers/{{ sub.id }}/edit">
+                <input type="email" name="email" value="{{ sub.email }}" class="border rounded px-2 py-1 w-64" />
+                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">Update</button>
+              </form>
+            <form method="post" action="/admin/delete/subscriber/{{ sub.id }}"><button class="text-red-600 hover:underline text-xs">Delete</button></form>
+          </li>
+        {% else %}
+          <li class="text-gray-500">No subscribers yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Topics -->
+    <div class="bg-white rounded-xl shadow p-4">
+      <h2 class="text-xl font-semibold mb-2">Newsletter Topics</h2>
+      <ul class="space-y-2 text-sm">
+        {% for topic in topics %}
+          <li class="border-b pb-1">
+            <div class="flex justify-between items-start">
+              <div>
+                <div class="font-medium">Week {{ topic.week }}</div>
+                <pre class="text-xs text-gray-600 overflow-x-auto">{{ topic.topics_json }}</pre>
+              </div>
+              <form method="post" action="/admin/topics/{{ topic.id }}/edit">
+                <input type="text" name="week" value="{{ topic.week }}" class="border rounded px-2 py-1 w-24" />
+                <textarea name="topics_json" class="border rounded px-2 py-1 w-64 h-20">{{ topic.topics_json }}</textarea>
+                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">Update</button>
+              </form>
+              <form method="post" action="/admin/delete/topic/{{ topic.id }}">
+                <button class="text-red-600 hover:underline text-xs">Delete</button>
+              </form>
+            </div>
+          </li>
+        {% else %}
+          <li class="text-gray-500">No topics stored.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Newsletters -->
+    <div class="bg-white rounded-xl shadow p-4">
+      <h2 class="text-xl font-semibold mb-2">Newsletters</h2>
+      <ul class="space-y-2 text-sm">
+        {% for newsletter in newsletters %}
+          <li class="border-b pb-1">
+            <div class="flex justify-between items-start">
+              <div>
+                <div class="font-medium">Week {{ newsletter.week }}</div>
+                <div class="text-xs text-gray-600 truncate max-w-xs">HTML Length: {{ newsletter.html | length }}</div>
+              </div>
+              <form method="post" action="/admin/newsletters/{{ newsletter.id }}/edit">
+                <input type="text" name="week" value="{{ newsletter.week }}" class="border rounded px-2 py-1 w-24" />
+                <textarea name="html" class="border rounded px-2 py-1 w-64 h-20">{{ newsletter.html }}</textarea>
+                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">Update</button>
+              </form>
+              <form method="post" action="/admin/delete/newsletter/{{ newsletter.id }}">
+                <button class="text-red-600 hover:underline text-xs">Delete</button>
+              </form>
+            </div>
+          </li>
+        {% else %}
+          <li class="text-gray-500">No newsletters generated yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
