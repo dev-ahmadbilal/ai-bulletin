@@ -428,6 +428,7 @@ html_formatting_task:
     - Fast loading with optimized images and minimal code
     - No reordering or skipping of sections
 
+    IMPORTANT: Do not add any commentry just return the html code.
   agent: html_formatter
   input_variables:
     - newsletter_content

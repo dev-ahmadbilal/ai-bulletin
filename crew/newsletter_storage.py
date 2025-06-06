@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from database import SessionLocal, engine, Base
@@ -21,36 +21,31 @@ def store_newsletter_data(week: str, topics_json: str, final_html: str) -> str:
     """
     db = SessionLocal()
     try:
-        # Start a transaction
-        with db.begin():
-            # Handle NewsletterTopic
-            existing_topic = db.query(NewsletterTopic).filter_by(week=week).first()
-            if existing_topic:
-                db.delete(existing_topic)
-            
-            new_topic = NewsletterTopic(
-                week=week,
-                topics_json=topics_json,
-                created_at=datetime.utcnow()
-            )
-            db.add(new_topic)
-            
-            # Handle Newsletter
-            existing_newsletter = db.query(Newsletter).filter_by(week=week).first()
-            if existing_newsletter:
-                db.delete(existing_newsletter)
-            
-            new_newsletter = Newsletter(
-                week=week,
-                html=final_html,
-                created_at=datetime.utcnow()
-            )
-            db.add(new_newsletter)
-            
+        # Delete old records first
+        db.query(NewsletterTopic).filter_by(week=week).delete()
+        db.query(Newsletter).filter_by(week=week).delete()
+
+        # Add new records
+        new_topic = NewsletterTopic(
+            week=week,
+            topics_json=topics_json,
+            created_at=datetime.now(timezone.utc)
+        )
+        new_newsletter = Newsletter(
+            week=week,
+            html=final_html,
+            created_at=datetime.now(timezone.utc)
+        )
+        db.add(new_topic)
+        db.add(new_newsletter)
+
+        # Commit once after all changes
+        db.commit()
+
         return f"✅ Stored weekly topics and newsletter HTML for week {week}"
-        
+    
     except SQLAlchemyError as e:
         db.rollback()
         return f"❌ Error storing newsletter data: {str(e)}"
     finally:
-        db.close() 
+        db.close()
