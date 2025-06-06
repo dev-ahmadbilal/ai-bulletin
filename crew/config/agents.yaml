@@ -20,9 +20,9 @@ topic_planner:
     produce polished newsletter issues without requiring major topic rewrites.
     You have your finger on the pulse of AI developments across industries, 
     from Silicon Valley startups to enterprise implementations to academic research.
-  llm: deepseek/deepseek-chat
+  llm: gemini/gemini-2.0-flash
 
-TopStoriesAgent:
+top_stories_writer:
   role: "AI News Curator and Tech Journalist"
   goal: >
     Summarize and present the top 3 AI/tech news stories of the week in a concise, 
@@ -45,8 +45,9 @@ TopStoriesAgent:
     - Include concrete details, numbers, and context where relevant
     - Maintain objectivity while highlighting the most newsworthy aspects
     - Ensure each story feels distinct and covers different aspects of the AI landscape
+  llm: gemini/gemini-2.0-flash
 
-DeepDiveAgent:
+deep_dive_writer:
   role: "Senior AI Research Analyst and Industry Expert"
   goal: >
     Write an in-depth, insightful analysis of a key AI trend, breakthrough, or development 
@@ -70,8 +71,9 @@ DeepDiveAgent:
     - Include specific examples, case studies, or real-world applications where relevant
     - Avoid speculation beyond reasonable, evidence-based predictions
     - Structure content with clear logical flow and compelling narrative arc
+  llm: gemini/gemini-2.0-flash
 
-ToolOfTheWeekAgent:
+tool_of_the_week_writer:
   role: "AI Tool Specialist and Product Reviewer"
   goal: >
     Introduce and comprehensively review a cutting-edge AI tool, platform, or service, 
@@ -97,8 +99,9 @@ ToolOfTheWeekAgent:
     - Include balanced assessment of strengths, weaknesses, and competitive alternatives
     - Explain why this tool matters this week and its potential impact on AI workflows
     - Where possible, include insights from actual usage or user feedback
+  llm: gemini/gemini-2.0-flash
 
-QuoteAgent:
+quote_writer:
   role: "Content Formatter and Context Specialist"
   goal: >
     Format and present the assigned quote or tweet with proper attribution, 
@@ -122,8 +125,9 @@ QuoteAgent:
     - Keep contextual commentary concise but insightful
     - Maintain the original tone and intent of the quoted material
     - Add value through context rather than changing or interpreting the core message
+  llm: gemini/gemini-2.0-flash
 
-AIInTheWildAgent:
+ai_in_the_wild_writer:
   role: "AI Implementation Field Reporter and Case Study Specialist"
   goal: >
     Document and describe unique, surprising, or particularly impactful real-world 
@@ -148,8 +152,9 @@ AIInTheWildAgent:
     - Avoid technical jargon unless necessary for understanding
     - Where possible, include quotes from users, implementers, or beneficiaries
     - Connect the specific case to broader trends or implications for AI adoption
+  llm: gemini/gemini-2.0-flash
 
-HotTakesAgent:
+hot_takes_writer:
   role: "Independent AI Industry Analyst and Opinion Writer"
   goal: >
     Deliver a sharp, well-argued, and potentially contrarian perspective on a trending 
@@ -173,8 +178,9 @@ HotTakesAgent:
     - Provide constructive perspective that adds value to industry discourse
     - Structure arguments logically with clear thesis and supporting points
     - Consider multiple stakeholder perspectives and potential counterarguments
+  llm: gemini/gemini-2.0-flash
 
-EditorsNoteAgent:
+editors_note_writer:
   role: "Newsletter Editor-in-Chief and Community Builder"
   goal: >
     Write a warm, insightful, and connecting editor's note that summarizes this week's 
@@ -197,8 +203,9 @@ EditorsNoteAgent:
     - Include subtle calls to action, reflection questions, or community engagement prompts
     - Avoid introducing entirely new topics while providing fresh perspective on covered material
     - Create a sense of continuity with previous editions and anticipation for future content
+  llm: gemini/gemini-2.0-flash
 
-NewsletterEditorAgent:
+newsletter_editor:
   role: "Senior Editorial Director and Content Quality Specialist"
   goal: >
     Review, refine, and polish the complete newsletter content from all sections, 
@@ -226,8 +233,9 @@ NewsletterEditorAgent:
     - Optimize content length and structure for busy professional readers
     - Add visual breaks and formatting that work well in email and web formats
     - Maintain brand consistency and editorial guidelines
+  llm: gemini/gemini-2.0-flash
 
-HTMLFormatterAgent:
+html_formatter:
   role: "Email Newsletter Designer and HTML Developer"
   goal: >
     Transform the polished newsletter content into a professional, responsive HTML format 
@@ -253,3 +261,4 @@ HTMLFormatterAgent:
     - Ensure fast loading and good performance across email platforms
     - Add appropriate call-to-action buttons and social sharing elements
     - Test compatibility with major email clients (Gmail, Outlook, Apple Mail, etc.)
+  llm: gemini/gemini-2.0-flash

@@ -38,7 +38,7 @@ plan_newsletter:
     Each object must match the corresponding Pydantic schema field as defined in `NewsletterTopics`.
   agent: topic_planner
 
-TopStoriesTask:
+top_stories_task:
   description: >
     Transform the curated top AI/tech news stories from the topic planner into engaging, 
     comprehensive, and accessible content that captures both the immediate significance 
@@ -51,6 +51,10 @@ TopStoriesTask:
     adoption, one on research breakthrough, one on policy/regulation) to provide diverse 
     coverage. Include relevant context about companies, technologies, or trends mentioned 
     to help readers understand significance even if they're not deeply familiar with the topic.
+    
+    IMPORTANT: Use only the stories provided by the topic planner. Do not deviate from assigned topics 
+    or introduce new stories. Focus on transforming the provided information into the most 
+    engaging and informative presentation possible.
 
   expected_output: |
     A complete "Top Stories" section containing exactly three distinct bullet points, formatted as:
@@ -81,15 +85,11 @@ TopStoriesTask:
     Each bullet point should be substantive (75-100 words total) and provide complete value 
     to readers. Use the exact titles and sources provided by the topic planner, while enhancing 
     the summaries with additional context and your expert "Why it matters" analysis.
-  agent: TopStoriesAgent
+  agent: top_stories_writer
   input_variables:
     - top_stories
-  context: >
-    Use only the stories provided by the topic planner. Do not deviate from assigned topics 
-    or introduce new stories. Focus on transforming the provided information into the most 
-    engaging and informative presentation possible.
 
-DeepDiveTask:
+deep_dive_task:
   description: >
     Create a comprehensive, analytical deep-dive article that thoroughly explores the week's 
     most significant AI development, trend, or breakthrough. This should go far beyond surface-level 
@@ -100,6 +100,10 @@ DeepDiveTask:
     with thoughtful analysis that positions the development within the broader AI landscape. 
     Include relevant background information, explain technical concepts in accessible terms, 
     and address implications for different stakeholders (businesses, researchers, consumers, policymakers).
+
+    IMPORTANT: Base your analysis strictly on the assigned deep dive topic from the planner. 
+    Do not introduce new topics or significantly deviate from the provided focus area. 
+    Your role is to provide the deepest, most insightful analysis possible of the assigned topic.
 
   expected_output: |
     A comprehensive article formatted as:
@@ -118,15 +122,11 @@ DeepDiveTask:
     
     Total length: 400-600 words. Use clear subheadings if needed to improve readability. 
     Balance technical accuracy with accessibility for a general professional audience.
-  agent: DeepDiveAgent
+  agent: deep_dive_writer
   input_variables:
     - deep_dive
-  context: >
-    Base your analysis strictly on the assigned deep dive topic from the planner. 
-    Do not introduce new topics or significantly deviate from the provided focus area. 
-    Your role is to provide the deepest, most insightful analysis possible of the assigned topic.
 
-ToolTask:
+tool_task:
   description: >
     Create a comprehensive introduction and review of the assigned AI tool that helps readers 
     understand its purpose, capabilities, practical applications, and significance within the 
@@ -138,6 +138,8 @@ ToolTask:
     to their needs, along with context about its competitive positioning and potential impact 
     on AI development or deployment processes.
 
+    IMPORTANT: Focus exclusively on the tool assigned by the topic planner. Provide comprehensive 
+    coverage of this specific tool without introducing alternatives or deviating to other tools.
   expected_output: |
     A complete tool review formatted as:
     
@@ -160,14 +162,11 @@ ToolTask:
     
     Total length: 200-300 words providing actionable information for readers.
 
-  agent: ToolOfTheWeekAgent
+  agent: tool_of_the_week_writer
   input_variables:
     - tool_of_the_week
-  context: >
-    Focus exclusively on the tool assigned by the topic planner. Provide comprehensive 
-    coverage of this specific tool without introducing alternatives or deviating to other tools.
 
-QuoteTask:
+quote_task:
   description: >
     Format and present the quote or tweet provided by the topic planner with proper 
     attribution, compelling visual presentation, and insightful contextual commentary 
@@ -175,6 +174,9 @@ QuoteTask:
     Focus on enhancing the quote's impact through thoughtful presentation and connecting 
     it meaningfully to the broader content without over-explaining or changing its core message.
 
+    IMPORTANT: Format and present only the specific quote/tweet provided by the topic planner. 
+    Your role is presentation and contextualization, not selection. Focus on maximizing 
+    the impact and relevance of the assigned quote through thoughtful formatting and commentary.
   expected_output: |
     A formatted quote section:
     
@@ -188,21 +190,20 @@ QuoteTask:
     [1-2 sentence contextual note explaining why this quote is relevant to this week's newsletter 
     themes, what insight or perspective it provides, and how it connects to the covered topics]
 
-  agent: QuoteAgent
+  agent: quote_writer
   input_variables:
     - quote_or_tweet
-  context: >
-    Format and present only the specific quote/tweet provided by the topic planner. 
-    Your role is presentation and contextualization, not selection. Focus on maximizing 
-    the impact and relevance of the assigned quote through thoughtful formatting and commentary.
 
-AIWildTask:
+ai_in_the_wild_task:
   description: >
     Document and present a compelling real-world AI application or implementation that 
     demonstrates practical impact, innovative use cases, or meaningful outcomes. Focus on 
     storytelling that highlights human benefits, business results, or societal impact rather 
     than just technical capabilities. Include specific details about implementation challenges, 
     results achieved, and lessons learned that provide value to readers considering similar applications.
+
+    IMPORTANT: Stay strictly within the assigned case or topic provided by the planner. Focus on 
+    creating the most compelling and informative presentation of this specific real-world application.
 
   expected_output: |
     A narrative-style case study formatted as:
@@ -221,14 +222,11 @@ AIWildTask:
     
     Total length: 250-350 words focusing on practical value and compelling narrative.
 
-  agent: AIInTheWildAgent
+  agent: ai_in_the_wild_writer
   input_variables:
     - ai_in_the_wild
-  context: >
-    Stay strictly within the assigned case or topic provided by the planner. Focus on 
-    creating the most compelling and informative presentation of this specific real-world application.
 
-HotTakesTask:
+hot_takes_task:
   description: >
     Develop and present a sharp, well-reasoned opinion piece that challenges conventional 
     thinking about a current AI topic, highlights overlooked aspects of recent developments, 
@@ -236,6 +234,8 @@ HotTakesTask:
     be provocative enough to generate thought and discussion while remaining professional, 
     constructive, and well-supported by evidence or logical reasoning.
 
+    IMPORTANT: Focus exclusively on the assigned hot take topic from the planner. Develop the strongest, 
+    most thoughtful contrarian perspective possible on this specific topic without introducing new subjects.
   expected_output: |
     An opinion piece formatted as:
     
@@ -251,20 +251,21 @@ HotTakesTask:
     
     Total length: 300-400 words with confident, clear voice that adds genuine value to industry discourse.
 
-  agent: HotTakesAgent
+  agent: hot_takes_writer
   input_variables:
     - hot_takes
-  context: >
-    Focus exclusively on the assigned hot take topic from the planner. Develop the strongest, 
-    most thoughtful contrarian perspective possible on this specific topic without introducing new subjects.
 
-EditorsNoteTask:
+editors_note_task:
   description: >
     Craft a warm, insightful editorial note that serves as both introduction and synthesis 
     for the week's newsletter content. Connect the various topics into a coherent narrative 
     or theme, provide personal perspective on the week's developments, and create a sense 
     of community engagement with readers. The note should feel like a thoughtful conversation 
     with the audience about what's happening in AI and why it matters.
+
+    IMPORTANT: Summarize and synthesize the overarching themes from all newsletter sections without 
+    introducing new topics. Create coherent connections between diverse content areas 
+    while maintaining the publication's voice and community engagement goals.
 
   expected_output: |
     A personal editorial note formatted as:
@@ -279,15 +280,11 @@ EditorsNoteTask:
     Keep tone approachable and authentic while maintaining professional credibility. 
     Focus on connecting themes rather than introducing new topics.
 
-  agent: EditorsNoteAgent
+  agent: editors_note_writer
   input_variables:
     - editors_note
-  context: >
-    Summarize and synthesize the overarching themes from all newsletter sections without 
-    introducing new topics. Create coherent connections between diverse content areas 
-    while maintaining the publication's voice and community engagement goals.
 
-NewsletterEditingTask:
+newsletter_editing_task:
   description: >
     Conduct a comprehensive editorial review of all newsletter sections, ensuring 
     consistent quality, tone, and presentation across the entire publication. 
@@ -299,6 +296,10 @@ NewsletterEditingTask:
     impact. Ensure the newsletter reads as a cohesive publication rather than 
     disconnected sections. Optimize content structure and presentation for 
     busy professional readers who need quick, valuable insights.
+
+    IMPORTANT: Take all completed newsletter sections and create a cohesive, polished final publication. 
+    Focus on editorial quality, readability optimization, and consistent brand voice 
+    throughout all sections.
 
   expected_output: |
     A complete, polished newsletter with all sections refined and formatted:
@@ -330,7 +331,7 @@ NewsletterEditingTask:
     Total length: Maintain content substance while optimizing for readability and engagement.
     Ensure consistent voice, proper grammar, and professional presentation throughout.
 
-  agent: NewsletterEditorAgent
+  agent: newsletter_editor
   input_variables:
     - editors_note_content
     - top_stories_content  
@@ -339,18 +340,18 @@ NewsletterEditingTask:
     - quote_content
     - ai_wild_content
     - hot_takes_content
-  context: >
-    Take all completed newsletter sections and create a cohesive, polished final publication. 
-    Focus on editorial quality, readability optimization, and consistent brand voice 
-    throughout all sections.
 
-HTMLFormattingTask:
+html_formatting_task:
   description: >
     Transform the polished newsletter content into professional, responsive HTML 
     optimized for email delivery across all major email clients and devices. 
     Use a consistent template structure that maintains brand identity while 
     ensuring excellent readability and engagement. Include all necessary 
     email elements for professional newsletter distribution.
+
+    IMPORTANT: Convert the complete polished newsletter into professional HTML email format. 
+    Maintain all content while optimizing for email delivery and cross-platform compatibility. 
+    Use established email HTML best practices and ensure consistent branding.
 
   expected_output: |
     A complete HTML email template containing:
@@ -427,10 +428,6 @@ HTMLFormattingTask:
     - Accessible design with alt text and proper contrast
     - Fast loading with optimized images and minimal code
 
-  agent: HTMLFormatterAgent
+  agent: html_formatter
   input_variables:
     - newsletter_content
-  context: >
-    Convert the complete polished newsletter into professional HTML email format. 
-    Maintain all content while optimizing for email delivery and cross-platform compatibility. 
-    Use established email HTML best practices and ensure consistent branding.

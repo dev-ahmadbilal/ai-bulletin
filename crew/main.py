@@ -20,23 +20,20 @@ class AIBulletinFlow(Flow[AIBulletinState]):
             .kickoff(inputs={})
         )
 
-        # Extract structured topics from result
-        output = result.output if hasattr(result, "output") else None
-
-        if output and hasattr(output, "topics"):
-            print("✅ Newsletter topics generated:")
-            print(output)
-            self.state.newsletter_topics = output
+        # Extract output from result
+        if hasattr(result, 'output'):
+            print("✅ Newsletter generated successfully")
+            self.state.newsletter_topics = result.output
         else:
-            print("⚠️ No topics returned or format mismatch.")
-            self.state.newsletter_topics = []
+            print("⚠️ No output returned.")
+            self.state.newsletter_topics = {}
 
     @listen(kickoff_newsletter_generation)
-    def save_topics_to_file(self):
-        print("💾 Saving newsletter content to 'newsletter_output.json'...")
-        with open("newsletter_output.json", "w") as f:
-            json.dump(self.state.newsletter_topics, f, indent=2)
-        print("📁 File saved.")
+    def save_final_output(self):
+        print("💾 Saving final newsletter output...")
+        with open("newsletter_final.json", "w") as f:
+            json.dump(self.state.newsletter_topics, f, indent=2, default=str)
+        print("📁 Final output saved to newsletter_final.json")
 
 
 def kickoff():

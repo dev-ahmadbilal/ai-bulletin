@@ -47,3 +47,6 @@ newsletters/*.md
 
 # CrewAI memory storage
 memory/
+
+# Outputs
+outputs/
