@@ -249,7 +249,7 @@ class AIBulletinCrew():
                 self.format_html()
             ],
             process=Process.hierarchical,
-            manager_llm="gemini/gemini-2.0-flash",
+            manager_llm="deepseek/deepseek-chat",
             verbose=True,
             memory=True,
             full_output=True

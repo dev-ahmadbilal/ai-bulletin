@@ -354,8 +354,7 @@ html_formatting_task:
     Use established email HTML best practices and ensure consistent branding.
 
   expected_output: |
-    A complete HTML email template containing:
-    
+    A complete HTML email based on the AI Bulletin master template, with injected content replacing the placeholder comments:    
     ```html
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -427,6 +426,7 @@ html_formatting_task:
     - Social sharing buttons and email footer elements
     - Accessible design with alt text and proper contrast
     - Fast loading with optimized images and minimal code
+    - No reordering or skipping of sections
 
   agent: html_formatter
   input_variables:
