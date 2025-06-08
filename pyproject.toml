@@ -2,7 +2,7 @@
 name = "ai-bulletin"
 version = "0.1.0"
 description = "AI-powered weekly tech newsletter backend and crew."
-authors = ["Your Name <your@email.com>"]
+authors = ["Ahmad Bilal <ahmadbilal.3491@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
