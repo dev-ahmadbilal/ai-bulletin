@@ -3,8 +3,13 @@ plan_newsletter:
     Curate a comprehensive, structured, and diverse weekly AI-focused newsletter that captures 
     the most significant developments across the artificial intelligence ecosystem. Use the Serper 
     tool to find trending AI news, breakthrough research, emerging tools, thought-provoking quotes, 
-    and compelling real-world applications. Load and analyze the last two weeks' newsletter topics 
-    from memory to ensure zero content repetition and maintain editorial freshness. 
+    and compelling real-world applications. 
+    
+    Previous Topics Context:
+    {% if previous_topics %}
+    Review the previous week's topics to ensure content diversity and avoid repetition:
+    {{ previous_topics }}
+    {% endif %}
     
     Focus on meaningful developments across multiple domains including but not limited to: 
     major product launches, groundbreaking research publications, policy and regulatory updates, 
@@ -259,20 +264,20 @@ editors_note_task:
   description: >
     Craft a warm, insightful editorial note that serves as both introduction and synthesis 
     for the week's newsletter content. Connect the various topics into a coherent narrative 
-    or theme, provide personal perspective on the week's developments, and create a sense 
+    or theme, provide perspective on the week's developments, and create a sense 
     of community engagement with readers. The note should feel like a thoughtful conversation 
-    with the audience about what's happening in AI and why it matters.
+    about what's happening in AI and why it matters.
 
     IMPORTANT: Summarize and synthesize the overarching themes from all newsletter sections without 
     introducing new topics. Create coherent connections between diverse content areas 
     while maintaining the publication's voice and community engagement goals.
 
   expected_output: |
-    A personal editorial note formatted as:
+    An editorial note formatted as:
     
     ## ✍️ Editor's Note
     
-    [3-5 sentences that synthesize the week's themes, provide editorial perspective on the 
+    [3-5 sentences that synthesize the week's themes, provide perspective on the 
     significance of covered topics, and create connection with readers through authentic, 
     conversational tone. Include subtle engagement elements like reflection questions or 
     calls to action that encourage reader interaction.]
@@ -353,8 +358,22 @@ html_formatting_task:
     Maintain all content while optimizing for email delivery and cross-platform compatibility. 
     Use established email HTML best practices and ensure consistent branding.
 
+    Expectiation:
+    -  A complete HTML email based on the AI Bulletin master template, with injected content replacing the placeholder comments.
+    
+    Requirements:
+    - Mobile-responsive design (works on all screen sizes)
+    - Compatible with major email clients (Gmail, Outlook, Apple Mail, etc.)
+    - Proper typography and spacing for readability
+    - Consistent branding and visual hierarchy
+    - Social sharing buttons and email footer elements
+    - Accessible design with alt text and proper contrast
+    - Fast loading with optimized images and minimal code
+    - No reordering or skipping of sections
+
+    IMPORTANT: Do not add any commentry/explanation or any other section just inject the content into the html template and return the html code only.
+  agent: html_formatter
   expected_output: |
-    A complete HTML email based on the AI Bulletin master template, with injected content replacing the placeholder comments:    
     ```html
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -404,31 +423,18 @@ html_formatting_task:
           </div>
 
           <div id="editors-note">
-            <h2>✍️ Editor’s Note</h2>
+            <h2>✍️ Editor's Note</h2>
             <!-- Injected content -->
           </div>
 
           <!-- Footer -->
           <div id="footer">
             <p>You are receiving this email because you subscribed to <strong>AI Bulletin</strong>.</p>
-            <p><a href="https://ai-bulletin.com/unsubscribe">Unsubscribe</a> | <a href="https://www.linkedin.com/in/ahmad-bilal-920637165/">Follow us on LinkedIn</a></p>
+            <p><a href="https://ai-bulletin.vercel.app/unsubscribe">Unsubscribe</a> | <a href="https://www.linkedin.com/in/ahmad-bilal-920637165/">Follow us on LinkedIn</a></p>
           </div>
 
         </body>
       </html>
     ```
-    
-    Requirements:
-    - Mobile-responsive design (works on all screen sizes)
-    - Compatible with major email clients (Gmail, Outlook, Apple Mail, etc.)
-    - Proper typography and spacing for readability
-    - Consistent branding and visual hierarchy
-    - Social sharing buttons and email footer elements
-    - Accessible design with alt text and proper contrast
-    - Fast loading with optimized images and minimal code
-    - No reordering or skipping of sections
-
-    IMPORTANT: Do not add any commentry just return the html code.
-  agent: html_formatter
   input_variables:
     - newsletter_content

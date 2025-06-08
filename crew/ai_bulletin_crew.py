@@ -123,7 +123,8 @@ class AIBulletinCrew():
     def plan_newsletter(self) -> Task:
         return Task(
             config=self.tasks_config['plan_newsletter'],
-            output_file="outputs/01_newsletter_topics.json"
+            output_file="outputs/01_newsletter_topics.json",
+            return_output=True
         )
 
     @task
