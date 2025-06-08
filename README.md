@@ -17,6 +17,10 @@ A fully autonomous, AI-powered weekly tech newsletter that summarizes the top st
 
 Built for AI-curious hackers who want to stay informed.
 
+### 📊 Ai Bulletin - Week 2025-W23
+
+![Ai Bulletin - Week 2025-W23](ai-bulletin.jpg)
+
 ---
 
 ## 🎯 Project Goal
@@ -188,7 +192,7 @@ CronTrigger(day_of_week="sun", hour=10, minute=0)
 ## 🧹 How It Works for Subscribers
 
 * ✉️ When a new user subscribes, they **instantly receive the latest edition** of the newsletter.  
-* 📫 We recommend checking your **spam or junk folder** if you don’t see the email.  
+* 📫 We recommend checking your **spam or junk folder** if you don't see the email.  
 * 🗓️ After that, new editions are delivered to all subscribers **automatically every week**.  
 
 ---
